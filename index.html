@@ -19,26 +19,13 @@
   <script type="text/javascript"></script>
   </head>
 <body>
-    <!--<div id="userNameContainer">
-        <form id="userNameForm" action="">
-            <input id="userNameInput" autocomplete="off" />
-            <button>Set username</button>
-        </form>
-    </div>
-    
-    <hr>
--->
+
 <div class="full">
   <div class="all"> <div class="overlay"></div><h1>Einbruchalarm Checker</h1>
     <p id="messages"></p>
    </div>
   </div>
 </div>
-    
-   <!--<form id="form" action="">
-        <input id="input" autocomplete="off" />
-        <button>Send</button>
-    </form>-->
 
     <script>
           // Global variable to store the classifier
@@ -75,8 +62,6 @@ function draw() {
   if (label == "alarm") {
                 // Send message to server
                 socket.emit('message', {message: "Alarm!"});
-                // Reset input field
-                //input.value = '';
             }
 }
 
@@ -88,7 +73,6 @@ function gotResult(error, results) {
     return;
   }
   // The results are in an array ordered by confidence.
-  // console.log(results[0]);
   label = results[0].label;
 }
 
@@ -97,40 +81,10 @@ function gotResult(error, results) {
         // Verbindung zum WebSocket-Server
         let socket = io("https://gt1-workshop2-chat.herokuapp.com");
         
-        // Save username
-        //let _userName = "";
-
-        //let userNameContainer = document.getElementById('userNameContainer');
-        //let userNameForm = document.getElementById('userNameForm');
-        //let userNameInput = document.getElementById('userNameInput');
         let form = document.getElementById('form');
         let input = document.getElementById('input');
         let messages = document.getElementById('messages');
 
-        /*// Set username
-        userNameForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (userNameInput.value) {
-                _userName = "Einbruchalarm";
-                userNameContainer.innerHTML = "<h2>" + _userName + "</h2>"
-            }
-        });*/
-
-        // Send messages
-        //form.addEventListener('submit', function(e) {
-            //e.preventDefault();
-            
-            /*if (label === "Class 2") {
-                // Send message to server
-                socket.emit('message', {userName: _userName, message: "Alarm!"});
-                // Reset input field
-                input.value = '';
-            }*/
-        //});
-
-        // Receive messages from all connected clients
-        // chatMessage = {userName: _, message: _}
         socket.on("message", ( chatMessage ) => {
             
             console.log(chatMessage.message);
