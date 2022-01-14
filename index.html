@@ -1,1 +1,83 @@
-test
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>Workshop Chat</title>
+  
+  <!-- Socket.io einbinden -->
+  <script src="https://gt1-workshop2-chat.herokuapp.com/socket.io/socket.io.js"></script>
+
+  </head>
+
+<body>
+    <div id="userNameContainer">
+        <form id="userNameForm" action="">
+            <input id="userNameInput" autocomplete="off" />
+            <button>Set username</button>
+        </form>
+    </div>
+    
+    <hr>
+    
+    <ul id="messages"></ul>
+    
+    <form id="form" action="">
+        <input id="input" autocomplete="off" />
+        <button>Send</button>
+    </form>
+
+    <script>
+        // Verbindung zum WebSocket-Server
+        let socket = io("https://gt1-workshop2-chat.herokuapp.com");
+        
+        // Save username
+        let _userName = "";
+
+        let userNameContainer = document.getElementById('userNameContainer');
+        let userNameForm = document.getElementById('userNameForm');
+        let userNameInput = document.getElementById('userNameInput');
+        let form = document.getElementById('form');
+        let input = document.getElementById('input');
+        let messages = document.getElementById('messages');
+
+        // Set username
+        userNameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (userNameInput.value) {
+                _userName = userNameInput.value;
+                userNameContainer.innerHTML = "<h2>I am " + _userName + "</h2>"
+            }
+        });
+
+        // Send messages
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (input.value) {
+                // Send message to server
+                socket.emit('message', {userName: _userName, message: input.value});
+                // Reset input field
+                input.value = '';
+            }
+        });
+
+        // Receive messages from all connected clients
+        // chatMessage = {userName: _, message: _}
+        socket.on("message", ( chatMessage ) => {
+            
+            console.log("Message from " + chatMessage.userName + ": " + chatMessage.message);
+            
+            // Display messages
+            var item = document.createElement('li');
+            item.textContent = chatMessage.userName + ": " + chatMessage.message;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+    </script>
+</body>
+
+</html>
