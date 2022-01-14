@@ -18,10 +18,7 @@ let classifier;
 
 // >>>>
 // HIER MUSS DER LINK ZU EUREM MODELL REIN!!!!
-let modelURL = 'https://teachablemachine.withgoogle.com/models/AlM-iOnnF/';
-
-let x;
-let y;
+let modelURL = '';
 
 
 // STEP 1: Load the model!
@@ -56,36 +53,6 @@ function draw() {
   // Draw the video
   image(video, 0, 0);
 
-  // Draw a circle
-  stroke(50);
-  fill(255);
-  ellipse(x, y, 24, 24);
-  fill(255);
-  rect(0,200,20,80);
-
-  //Jiggle randomly
-  x = x + random(-1, 1);
-  
-  // Reset to the bottom
-  if (y < 0) {
-    y = height;
-  }
-
-  if (label === "Shocked") {
-    y = y - 2;
-  } else if (label ==="Happy") {
-    y = y + 2;
-  } else if (label ==="iPhone") {
-    x = x - 2;
-  } else if (label ==="Water Bottle") {
-    x = x +2;
-  }
-
-let score = 0;
-if (y > 160 && y <240 && x <0) {
-  score++;
-  document.getElementById("Score").innerHTML = score;
-}
 
   // STEP 4: Draw the label
   labelOutput.innerHTML = label;
