@@ -19,7 +19,7 @@
   </head>
 
 <body>
-    <div id="userNameContainer">
+    <!--<div id="userNameContainer">
         <form id="userNameForm" action="">
             <input id="userNameInput" autocomplete="off" />
             <button>Set username</button>
@@ -27,13 +27,13 @@
     </div>
     
     <hr>
+-->
+    <p id="messages"></p>
     
-    <ul id="messages"></ul>
-    
-    <form id="form" action="">
+   <!--<form id="form" action="">
         <input id="input" autocomplete="off" />
         <button>Send</button>
-    </form>
+    </form>-->
 
     <script>
           // Global variable to store the classifier
@@ -53,6 +53,7 @@ function preload() {
 
 function setup() {
   createCanvas(320, 240);
+  frameRate(1);
   // Start classifying
   // The sound model will continuously listen to the microphone
   classifier.classify(gotResult);
@@ -65,6 +66,13 @@ function draw() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text(label, width / 2, height / 2);
+
+  if (label === "Class 2") {
+                // Send message to server
+                socket.emit('message', {message: "Alarm!"});
+                // Reset input field
+                //input.value = '';
+            }
 }
 
 
@@ -85,16 +93,16 @@ function gotResult(error, results) {
         let socket = io("https://gt1-workshop2-chat.herokuapp.com");
         
         // Save username
-        let _userName = "";
+        //let _userName = "";
 
-        let userNameContainer = document.getElementById('userNameContainer');
-        let userNameForm = document.getElementById('userNameForm');
-        let userNameInput = document.getElementById('userNameInput');
+        //let userNameContainer = document.getElementById('userNameContainer');
+        //let userNameForm = document.getElementById('userNameForm');
+        //let userNameInput = document.getElementById('userNameInput');
         let form = document.getElementById('form');
         let input = document.getElementById('input');
         let messages = document.getElementById('messages');
 
-        // Set username
+        /*// Set username
         userNameForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -102,29 +110,29 @@ function gotResult(error, results) {
                 _userName = "Einbruchalarm";
                 userNameContainer.innerHTML = "<h2>" + _userName + "</h2>"
             }
-        });
+        });*/
 
         // Send messages
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        //form.addEventListener('submit', function(e) {
+            //e.preventDefault();
             
-            if (label === "Class 2") {
+            /*if (label === "Class 2") {
                 // Send message to server
                 socket.emit('message', {userName: _userName, message: "Alarm!"});
                 // Reset input field
                 input.value = '';
-            }
-        });
+            }*/
+        //});
 
         // Receive messages from all connected clients
         // chatMessage = {userName: _, message: _}
         socket.on("message", ( chatMessage ) => {
             
-            console.log("Message from " + chatMessage.userName + ": " + chatMessage.message);
+            console.log(chatMessage.message);
             
             // Display messages
             var item = document.createElement('li');
-            item.textContent = chatMessage.userName + ": " + chatMessage.message;
+            item.textContent = chatMessage.message;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
