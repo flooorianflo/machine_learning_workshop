@@ -18,7 +18,7 @@ let classifier;
 
 // >>>>
 // HIER MUSS DER LINK ZU EUREM MODELL REIN!!!!
-let modelURL = '';
+let modelURL = 'https://teachablemachine.withgoogle.com/models/wuyd_Zs2K/';
 
 
 // STEP 1: Load the model!
