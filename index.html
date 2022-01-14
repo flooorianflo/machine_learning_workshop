@@ -48,7 +48,7 @@ let classifier;
 let label = 'listening...';
 
 // Teachable Machine model URL:
-let soundModel = 'https://teachablemachine.withgoogle.com/models/wuyd_Zs2K/';
+let soundModel = 'https://teachablemachine.withgoogle.com/models/YnzEDxGbz/';
 
 
 function preload() {
@@ -72,7 +72,7 @@ function draw() {
   textAlign(CENTER, CENTER);
   text(label, width / 2, height / 2);
 
-  if (label === "Class 2") {
+  if (label == "alarm") {
                 // Send message to server
                 socket.emit('message', {message: "Alarm!"});
                 // Reset input field
